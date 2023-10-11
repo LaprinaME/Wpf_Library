@@ -1,0 +1,140 @@
+﻿<Window x:Class="Wpf_Library.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf_Library"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="Black"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="Red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="#474A51"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <TabControl Grid.ColumnSpan="2">
+            <!-- Раздел "Пользователи" -->
+            <TabItem Header="Пользователи">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!-- Кнопки -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                        <Viewbox Width="Auto" Height="Auto">
+                            <Button Name="SearchUserButton" Content="Поиск пользователя" Click="SearchUserButton_Click" Width="210" Height="60" />
+                        </Viewbox>
+
+                        <TextBox Name="UserNameTextBox" Text="Имя" Width="180" Height="Auto" Margin="10,0"/>
+                        <TextBox Name="UserFamilyTextBox" Text="Фамилия" Width="180" Height="Auto" Margin="10,0"/>
+                        <Button Name="DeleteUserButton" Content="Удалить пользователя" Click="DeleteUserButton_Click" Width="210" Height="60" />
+                    </StackPanel>
+
+                    <!-- Список пользователей -->
+                    <ListView Name="UsersListView" Grid.Row="1">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}" Width="400"/>
+                                <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Family}" Width="400"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                </Grid>
+            </TabItem>
+            <!-- Раздел "Книги" -->
+            <TabItem Header="Книги">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!-- Кнопки -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Viewbox Width="Auto" Height="Auto">
+                            <Button Name="SearchBookButton" Content="Поиск книги" Click="SearchBookButton_Click" Width="165" Height="60" />
+                        </Viewbox>
+
+                        <TextBox Name="BookAuthorTextBox" Text="Автор книги" Width="180" Height="Auto" Margin="10,0"/>
+                        <TextBox Name="BookTitleTextBox" Text="Название книги" Width="180" Height="Auto" Margin="10,0"/>
+                        <TextBox Name="GenreForLend" Text="Жанр книги" Width="180" Height="Auto" Margin="10,0"/>
+                    </StackPanel>
+                    <!-- Список книг -->
+                    <ListView Name="BooksListView" Grid.Row="1">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Автор" DisplayMemberBinding="{Binding Title}" Width="300"/>
+                                <GridViewColumn Header="Жанр" DisplayMemberBinding="{Binding Author}" Width="300"/>
+                                <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Genre}" Width="500"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <!-- Раздел "Книги пользователей" -->
+            <TabItem Header="Книги пользователей">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+                        <TextBox Name="UserNameForLend" Width="180" Text="Имя пользователя" Margin="0,0,10,0" Height="60" />
+                        <TextBox Name="BookTitleForLend" Width="180" Text="Название книги" Margin="0,0,10,0" Height="60" />
+                        <TextBox Name="BookGenreTextBox" Width="180" Text="Жанр книги" Margin="0,0,10,0" Height="60" />
+                        <Button x:Name="LendBookButton" Content="Выдать книгу" Click="LendBookButton_Click" Width="180" Height="60" />
+                    </StackPanel>
+                    <!-- Список книг пользователя -->
+                    <ListView Name="UserBooksListView" Grid.Row="2" SelectionChanged="UserBooksListView_SelectionChanged">
+                    </ListView>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
